@@ -13,7 +13,8 @@ typedef void* simd_u64v_mask;
 
 simd_u64v simd_u64_create();
 void simd_u64_free(simd_u64v v);
-/* constexpr */ size_t simd_u64_size();
+size_t simd_u64_size();
+size_t simd_u64_optimal_alignment();
 simd_u64v simd_u64_broadcast(simd_u64v v, uint64_t value);
 simd_u64v simd_u64_load(simd_u64v v, const uint64_t* data);
 simd_u64v simd_u64_load_aligned(simd_u64v v, const uint64_t* data);
@@ -53,7 +54,7 @@ simd_u64v_mask simd_u64_mask_load_aligned(simd_u64v_mask m, const bool* data);
 simd_u64v_mask simd_u64_mask_load_bitmask(simd_u64v_mask m, size_t bitmask);
 simd_u64v_mask simd_u64_mask_store(simd_u64v_mask m, bool* data);
 simd_u64v_mask simd_u64_mask_store_aligned(simd_u64v_mask m, bool* data);
-simd_u64v_mask simd_u64_mask_store_bitmask(simd_u64v_mask m, size_t bitmask);
+size_t simd_u64_mask_store_bitmask(simd_u64v_mask m);
 bool simd_u64_mask_set_if_all(const simd_u64v_mask m);
 bool simd_u64_mask_set_if_none(const simd_u64v_mask m);
 bool simd_u64_mask_set_if_any(const simd_u64v_mask m);

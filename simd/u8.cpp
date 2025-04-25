@@ -21,6 +21,10 @@ namespace simd {
 			return u8v_impl::size();
 		}
 
+		size_t simd_u8_optimal_alignment() {
+			return std::experimental::memory_alignment_v<u8v_impl>;
+		}
+
 		u8v simd_u8_broadcast(u8v v, uint8_t value) {
 			*v = u8v_impl(value);
 			return v;
@@ -217,12 +221,13 @@ namespace simd {
 			return m;
 		}
 
-		u8v_mask simd_u8_mask_store_bitmask(u8v_mask m, size_t bitmask) {
+		size_t simd_u8_mask_store_bitmask(u8v_mask m) {
 			alignas(std::experimental::memory_alignment_v<u8v_mask_impl>) std::array<bool, sizeof(size_t) * 8> bits;
 			m->copy_to(bits.data(), std::experimental::vector_aligned);
+			size_t out = 0;
 			for (size_t i = 0; i < bits.size(); ++i)
-				bitmask |= (uint64_t{bits[i]} << i);
-			return m;
+				out |= (uint64_t{bits[i]} << i);
+			return out;
 		}
 
 		bool simd_u8_mask_set_if_all(const u8v_mask m) {

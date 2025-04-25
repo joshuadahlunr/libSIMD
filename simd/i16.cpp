@@ -21,6 +21,10 @@ namespace simd {
 			return i16v_impl::size();
 		}
 
+		size_t simd_i16_optimal_alignment() {
+			return std::experimental::memory_alignment_v<i16v_impl>;
+		}
+
 		i16v simd_i16_broadcast(i16v v, int16_t value) {
 			*v = i16v_impl(value);
 			return v;
@@ -217,12 +221,13 @@ namespace simd {
 			return m;
 		}
 
-		i16v_mask simd_i16_mask_store_bitmask(i16v_mask m, size_t bitmask) {
+		size_t simd_i16_mask_store_bitmask(i16v_mask m) {
 			alignas(std::experimental::memory_alignment_v<i16v_mask_impl>) std::array<bool, sizeof(size_t) * 16> bits;
 			m->copy_to(bits.data(), std::experimental::vector_aligned);
+			size_t out = 0;
 			for (size_t i = 0; i < bits.size(); ++i)
-				bitmask |= (uint64_t{bits[i]} << i);
-			return m;
+				out |= (uint64_t{bits[i]} << i);
+			return out;
 		}
 
 		bool simd_i16_mask_set_if_all(const i16v_mask m) {

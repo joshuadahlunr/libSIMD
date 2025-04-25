@@ -13,7 +13,8 @@ typedef void* simd_i32v_mask;
 
 simd_i32v simd_i32_create();
 void simd_i32_free(simd_i32v v);
-/* constexpr */ size_t simd_i32_size();
+size_t simd_i32_size();
+size_t simd_i32_optimal_alignment();
 simd_i32v simd_i32_broadcast(simd_i32v v, int32_t value);
 simd_i32v simd_i32_load(simd_i32v v, const int32_t* data);
 simd_i32v simd_i32_load_aligned(simd_i32v v, const int32_t* data);
@@ -53,7 +54,7 @@ simd_i32v_mask simd_i32_mask_load_aligned(simd_i32v_mask m, const bool* data);
 simd_i32v_mask simd_i32_mask_load_bitmask(simd_i32v_mask m, size_t bitmask);
 simd_i32v_mask simd_i32_mask_store(simd_i32v_mask m, bool* data);
 simd_i32v_mask simd_i32_mask_store_aligned(simd_i32v_mask m, bool* data);
-simd_i32v_mask simd_i32_mask_store_bitmask(simd_i32v_mask m, size_t bitmask);
+size_t simd_i32_mask_store_bitmask(simd_i32v_mask m);
 bool simd_i32_mask_set_if_all(const simd_i32v_mask m);
 bool simd_i32_mask_set_if_none(const simd_i32v_mask m);
 bool simd_i32_mask_set_if_any(const simd_i32v_mask m);

@@ -21,6 +21,10 @@ namespace simd {
 			return f64v_impl::size();
 		}
 
+		size_t simd_f64_optimal_alignment() {
+			return std::experimental::memory_alignment_v<f64v_impl>;
+		}
+
 		f64v simd_f64_broadcast(f64v v, double value) {
 			*v = f64v_impl(value);
 			return v;
@@ -217,12 +221,13 @@ namespace simd {
 			return m;
 		}
 
-		f64v_mask simd_f64_mask_store_bitmask(f64v_mask m, size_t bitmask) {
+		size_t simd_f64_mask_store_bitmask(f64v_mask m) {
 			alignas(std::experimental::memory_alignment_v<f64v_mask_impl>) std::array<bool, sizeof(size_t) * 8> bits;
 			m->copy_to(bits.data(), std::experimental::vector_aligned);
+			size_t out = 0;
 			for (size_t i = 0; i < bits.size(); ++i)
-				bitmask |= (uint64_t{bits[i]} << i);
-			return m;
+				out |= (uint64_t{bits[i]} << i);
+			return out;
 		}
 
 		bool simd_f64_mask_set_if_all(const f64v_mask m) {

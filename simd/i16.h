@@ -13,7 +13,8 @@ typedef void* simd_i16v_mask;
 
 simd_i16v simd_i16_create();
 void simd_i16_free(simd_i16v v);
-/* constexpr */ size_t simd_i16_size();
+size_t simd_i16_size();
+size_t simd_i16_optimal_alignment();
 simd_i16v simd_i16_broadcast(simd_i16v v, int16_t value);
 simd_i16v simd_i16_load(simd_i16v v, const int16_t* data);
 simd_i16v simd_i16_load_aligned(simd_i16v v, const int16_t* data);
@@ -53,7 +54,7 @@ simd_i16v_mask simd_i16_mask_load_aligned(simd_i16v_mask m, const bool* data);
 simd_i16v_mask simd_i16_mask_load_bitmask(simd_i16v_mask m, size_t bitmask);
 simd_i16v_mask simd_i16_mask_store(simd_i16v_mask m, bool* data);
 simd_i16v_mask simd_i16_mask_store_aligned(simd_i16v_mask m, bool* data);
-simd_i16v_mask simd_i16_mask_store_bitmask(simd_i16v_mask m, size_t bitmask);
+size_t simd_i16_mask_store_bitmask(simd_i16v_mask m);
 bool simd_i16_mask_set_if_all(const simd_i16v_mask m);
 bool simd_i16_mask_set_if_none(const simd_i16v_mask m);
 bool simd_i16_mask_set_if_any(const simd_i16v_mask m);

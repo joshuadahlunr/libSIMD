@@ -1,3 +1,4 @@
+#include "bits/simd.h"
 #include <simd>
 
 namespace simd {
@@ -19,6 +20,10 @@ namespace simd {
 
 		size_t simd_f32_size() {
 			return f32v_impl::size();
+		}
+
+		size_t simd_f32_optimal_alignment() {
+			return std::experimental::memory_alignment_v<f32v_impl>;
 		}
 
 		f32v simd_f32_broadcast(f32v v, float value) {
@@ -217,12 +222,13 @@ namespace simd {
 			return m;
 		}
 
-		f32v_mask simd_f32_mask_store_bitmask(f32v_mask m, size_t bitmask) {
+		size_t simd_f32_mask_store_bitmask(f32v_mask m) {
 			alignas(std::experimental::memory_alignment_v<f32v_mask_impl>) std::array<bool, sizeof(size_t) * 8> bits;
 			m->copy_to(bits.data(), std::experimental::vector_aligned);
+			size_t out = 0;
 			for (size_t i = 0; i < bits.size(); ++i)
-				bitmask |= (uint64_t{bits[i]} << i);
-			return m;
+				out |= (uint64_t{bits[i]} << i);
+			return out;
 		}
 
 		bool simd_f32_mask_set_if_all(const f32v_mask m) {
